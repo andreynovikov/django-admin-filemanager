@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-admin-filemanager"
+version = "1.0.0"
+description = "File manager in the Django admin for the files that HTML text links to"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+  {name = "Andrey Novikov", email = "novikov@gmail.com"},
+]
+requires-python = ">=3.10"
+dependencies = [
+  "Django>=5.2",
+]
+keywords = ["django", "admin", "file manager", "file browser", "media", "upload", "widget"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
+  "Framework :: Django",
+  "Framework :: Django :: 5.2",
+  "Framework :: Django :: 6.0",
+  "Framework :: Django :: 6.1",
+  "Intended Audience :: Developers",
+  "Natural Language :: English",
+  "Natural Language :: Russian",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
+  "Topic :: Internet :: WWW/HTTP :: Site Management",
+]
+
+[project.urls]
+Homepage = "https://github.com/andreynovikov/django-admin-filemanager"
+Repository = "https://github.com/andreynovikov/django-admin-filemanager.git"
+Issues = "https://github.com/andreynovikov/django-admin-filemanager/issues"
+Releases = "https://github.com/andreynovikov/django-admin-filemanager/releases"
+
+[tool.setuptools.packages.find]
+include = ["filemanager*"]

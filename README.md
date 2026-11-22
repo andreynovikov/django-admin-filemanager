@@ -1,4 +1,12 @@
-# filemanager
+# File manager in the Django admin
+
+[![Test status](https://github.com/andreynovikov/django-admin-filemanager/actions/workflows/test.yaml/badge.svg)](https://github.com/andreynovikov/django-admin-filemanager/actions/workflows/test.yaml)
+[![GitHub release](https://img.shields.io/github/release/andreynovikov/django-admin-filemanager.svg)](https://github.com/andreynovikov/django-admin-filemanager/releases/latest)
+[![PyPI release](https://img.shields.io/pypi/v/django-admin-filemanager.svg)](https://pypi.org/project/django-admin-filemanager/)
+[![Python version](https://img.shields.io/pypi/pyversions/django-admin-filemanager.svg)](https://pypi.org/project/django-admin-filemanager/)
+[![Django version](https://img.shields.io/pypi/frameworkversions/django/django-admin-filemanager.svg)](https://pypi.org/project/django-admin-filemanager/)
+[![GitHub issues](https://img.shields.io/github/issues/andreynovikov/django-admin-filemanager.svg)](https://github.com/andreynovikov/django-admin-filemanager/issues)
+[![GitHub license](https://img.shields.io/github/license/andreynovikov/django-admin-filemanager.svg)](LICENSE)
 
 A file browser in the Django admin for the files that pages link to by URL: images, videos and documents in HTML text. It works like a file system. Folders nest freely, files keep the names they are uploaded with, and replacing a file keeps its URL. Files have no versions.
 
@@ -21,15 +29,21 @@ A file browser in the Django admin for the files that pages link to by URL: imag
 
 ## Requirements
 
-- Python 3.11 or later.
-- Django 5.1 or later, tested with Django 6.1.
+- Python 3.10 or later.
+- Django 5.2 or later; 5.2, 6.0 and 6.1 are tested.
 - A `FileSystemStorage`. Another storage, such as S3, needs a store class in `storage.py`, see [Other storages](#other-storages).
 
 ## Installation
 
-1. Add `'filemanager'` to `INSTALLED_APPS`.
-2. Run `python manage.py migrate filemanager`. The model has no table, but the migration creates its permissions.
-3. Give the `HTMLTextarea` widget to the fields that hold HTML, see [The HTML widget](#the-html-widget).
+1. Install the package. It is named `django-admin-filemanager`, and its app is `filemanager`.
+
+   ```shell
+   pip install django-admin-filemanager
+   ```
+
+2. Add `'filemanager'` to `INSTALLED_APPS`. Its templates and scripts are found by the default template loaders and static file finders.
+3. Run `python manage.py migrate filemanager`. The model has no table, but the migration creates its permissions.
+4. Give the `HTMLTextarea` widget to the fields that hold HTML, see [The HTML widget](#the-html-widget).
 
 The browser is at the changelist URL of `filemanager.File`, `admin:filemanager_file_changelist`.
 
@@ -71,9 +85,48 @@ Replacing a file keeps its URL, so the URL mustn't be cached for long. Serve the
 
 The views use a store returned by `storage.get_store()`, and `FileSystemStore` is the only one so far. A store for an object storage implements the same methods. Folders are key prefixes there, so renaming one means copying and deleting each object under it, and an empty folder needs a placeholder object. Its `save()` puts the object under its final key, which replaces it in one step.
 
-## Tests
+## Development
 
-```sh
-python manage.py test filemanager                                  # in a project
-python -m django test filemanager --settings=filemanager.tests.settings  # standalone, on SQLite
+### Tests
+
+In a project that has the app installed:
+
+```shell
+python manage.py test filemanager
 ```
+
+On all supported Python and Django versions, with [tox](https://tox.wiki/):
+
+```shell
+tox
+```
+
+Or once, without a project, on SQLite, in the repository's root:
+
+```shell
+python -m django test filemanager --settings=filemanager.tests.settings
+```
+
+### Translations
+
+The source strings are English, and `filemanager/locale/` holds the English and Russian catalogs. To update them after changing strings, run this in the `filemanager` directory (it needs GNU gettext):
+
+```shell
+django-admin makemessages -l en -l ru
+django-admin compilemessages
+```
+
+### Releases
+
+Set the new version in `pyproject.toml`, commit, then tag the commit and push the tag:
+
+```shell
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+The `publish` workflow tests the tag, publishes it to TestPyPI and PyPI and creates a GitHub release with notes generated from the commits.
+
+## License
+
+[MIT](LICENSE)
